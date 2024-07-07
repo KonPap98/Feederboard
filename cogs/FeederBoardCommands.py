@@ -103,20 +103,23 @@ class FeederBoard(commands.Cog):
                     feeder_select.add_option(label=row["name"], value=row["ID"])
 
                 async def my_callback(interaction: discord.Interaction):
-                    stats = cursor.execute("SELECT NAME, DEATHS FROM DEATH_COUNTER WHERE ID = ? OR ID = ?", (discord_id, feeder_select.values[0],))
+                    cursor.execute("SELECT NAME, DEATHS FROM DEATH_COUNTER WHERE ID = ? OR ID = ? Order by Deaths DESC", (discord_id, feeder_select.values[0],))
+                    stats = cursor.fetchall()
 
-                    for stat in stats:
+                    winner = stats[0][0]
+
+                    for stat in stats:    
                         match_embed.add_field(name = f"Name: {stat["Name"]}", value =f"Deaths: {stat["Deaths"]}", inline=True)
-                        # print(stats["deaths"][0])
+                        
 
-                    match_embed.set_footer(text = f"{interaction.user} made this embed")
+                    match_embed.set_footer(text = f"{winner} has been helping world hunger")
 
                     await interaction.response.send_message(embed=match_embed)    
 
                 feeder_select.callback = my_callback
 
                 view.add_item(feeder_select)
-                await interaction.response.send_message("Select a feeder", view=view, ephemeral=True, delete_after=10)
+                await interaction.response.send_message("Select a feeder", view=view, ephemeral=True)
     
 
                 conn.commit
