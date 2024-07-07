@@ -27,10 +27,8 @@ class FeederBoard(commands.Cog):
             
             #create embed
             feeder_embed = discord.Embed(title = "Server Ranking", description = "Shows the server feeders", colour = discord.Colour.dark_purple())
-            print("test 1")
     
             rows = cursor.execute("SELECT NAME, DEATHS FROM DEATH_COUNTER WHERE SERVER_ID = ? Order by Deaths DESC", (str(guild_id),)) 
-            print("test 2")
             #leaderboard index
             leaderboard_place = 1
 
@@ -40,12 +38,9 @@ class FeederBoard(commands.Cog):
                 feeder_embed.add_field(name = "Deaths", value =row["deaths"], inline=True)
                 feeder_embed.add_field(name = "", value = "", inline=True)
                 leaderboard_place += 1
-            print("test 3")  
 
             feeder_embed.set_footer(text = f"{interaction.user} made this embed")        
             await interaction.response.send_message(embed = feeder_embed)
-
-            print("test 4")   
 
             conn.commit    
             conn.close
