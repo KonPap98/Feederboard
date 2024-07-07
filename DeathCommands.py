@@ -7,7 +7,6 @@ import os
 ApiKey = (os.getenv("RiotApiKey"))
 
 async def DeathCalc(discord_id, username, AccountID, region_lowercase, server_id):
-
     #get account id for API call
     AccountIDString = str(AccountID)
 
@@ -27,11 +26,10 @@ async def DeathCalc(discord_id, username, AccountID, region_lowercase, server_id
         matchDeaths = match_data['info']['participants'][player_index]['deaths']
         final_deaths += matchDeaths
 
-
+        
     await UpdateDeathTable(discord_id, final_deaths, username, server_id)
     
 async def UpdateDeathTable(discord_id, final_deaths, username, server_id):
-
         #connect to DB
         conn = sqlite3.connect('RiotIDs.db')
         cursor = conn.cursor()
@@ -43,9 +41,8 @@ async def UpdateDeathTable(discord_id, final_deaths, username, server_id):
         #if user exists update table else create entry
         if id:
             cursor.execute(''' UPDATE Death_Counter 
-                        SET DEATHS = ?
-                        WHERE ID = ?''',
-                        (str(final_deaths), str(id)))  
+                        SET DEATHS = ?, SERVER_ID = ? WHERE ID = ?''',
+                        (str(final_deaths), str(server_id), str(id)))  
         else:
             cursor.execute(''' INSERT INTO Death_Counter 
                         (ID, NAME, DEATHS, SERVER_ID)

@@ -1,7 +1,6 @@
 import discord
 from discord.ext import commands
 from discord import ui
-from discord.utils import get
 import Register_Unlink
 from discord import app_commands
 
@@ -15,7 +14,6 @@ class Register_User(commands.Cog):
             
            
         @app_commands.command()
-        @commands.has_permissions(manage_roles = True)
         async def register(self, interaction: discord.Interaction):
                 
                 #Create modal
@@ -47,8 +45,9 @@ class Register_User(commands.Cog):
         async def unlink(self, interaction: discord.Interaction):
             
             discord_id = interaction.user.id
-            await Register_Unlink.trigger_unlink(discord_id)
             await interaction.response.send_message(":saluting_face: You will be missed :saluting_face:")
+            await Register_Unlink.trigger_unlink(discord_id)
+            
             
 async def setup(Client):
     await Client.add_cog(Register_User(Client))

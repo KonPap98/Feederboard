@@ -7,8 +7,8 @@ from discord.ext  import commands
 discord_token = os.getenv("DiscordToken")
 
 #Toggle intents
-intents = discord.Intents.all()
-intents.members = True
+intents = discord.Intents.default()
+# intents.members = True
 
 #Setup bot and select prefix
 Client = commands.Bot(command_prefix = '!', intents = intents)
@@ -29,7 +29,7 @@ def init_db():
 
 init_db()   
 
-#Read Cogs from other folder
+#Read Cogs from folder
 async def load(): 
      path = 'FeederBoard/cogs'
 
