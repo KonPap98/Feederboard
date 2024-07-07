@@ -42,13 +42,13 @@ async def trigger_register(interaction: discord.Interaction, discord_id, usernam
             ''',(str(discord_id), str(username), str(tag), str(AccountID), region_lowercase,))
         
     else:
-        cursor.execute('''UPDATE Riot_Accounts
-                       SET ACCOUNT_ID = ?,
-                       USERNAME = ?,
-                       TAG = ?
-                       REGION = ?
-                       WHERE ID = ?
-                       ''',(str(AccountID), str(username), str(tag), region_lowercase, discord_id,))
+        cursor.execute('''UPDATE Riot_Accounts 
+                          SET ACCOUNT_ID = ?, 
+                          USERNAME = ?, 
+                          HASHATG = ?, 
+                          REGION = ? 
+                          WHERE ID = ?
+                       ''',(str(AccountID), str(username), str(tag), region_lowercase, str(discord_id)))
 
     conn.commit()
     conn.close() 

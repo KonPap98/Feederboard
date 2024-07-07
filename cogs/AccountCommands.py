@@ -35,7 +35,7 @@ class Register_User(commands.Cog):
                             await interaction.response.send_message("Ivalid region", ephemeral=True)
                             return 0     
                         else:
-                            await interaction.response.send_message("Loading your stats...", ephemeral=True, delete_after=6)
+                            await interaction.response.send_message("Loading your stats...", ephemeral=True)
                             await Register_Unlink.trigger_register(interaction=interaction, discord_id=discord_id, username=username, tag=tag, region=region)
                               
 

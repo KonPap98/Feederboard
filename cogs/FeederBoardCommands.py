@@ -97,7 +97,7 @@ class FeederBoard(commands.Cog):
                 conn.row_factory = sqlite3.Row
                 cursor = conn.cursor()
                
-                rows = cursor.execute("SELECT NAME, ID FROM DEATH_COUNTER WHERE SERVER_ID = ? Order by Deaths DESC", (guid_id,))
+                rows = cursor.execute("SELECT NAME, ID FROM DEATH_COUNTER WHERE SERVER_ID = ? AND ID != ? Order by Deaths DESC", (guid_id, discord_id,))
                 
                 for row in rows:
                     feeder_select.add_option(label=row["name"], value=row["ID"])
@@ -107,6 +107,7 @@ class FeederBoard(commands.Cog):
 
                     for stat in stats:
                         match_embed.add_field(name = f"Name: {stat["Name"]}", value =f"Deaths: {stat["Deaths"]}", inline=True)
+                        # print(stats["deaths"][0])
 
                     match_embed.set_footer(text = f"{interaction.user} made this embed")
 
@@ -116,6 +117,7 @@ class FeederBoard(commands.Cog):
 
                 view.add_item(feeder_select)
                 await interaction.response.send_message("Select a feeder", view=view, ephemeral=True, delete_after=10)
+    
 
                 conn.commit
                 conn.close
